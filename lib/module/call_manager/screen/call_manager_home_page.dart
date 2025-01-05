@@ -1,8 +1,9 @@
 import 'package:call_manager/module/call_manager/widget/audio_call_widget.dart';
 import 'package:call_manager/module/data/contact_model.dart';
-import 'package:call_manager/module/utils/call_mangaer.dart';
+import 'package:call_manager/module/utils/call_manager.dart';
+import 'package:call_manager/module/utils/work_manager_constant.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
+import 'package:workmanager/workmanager.dart';
 
 class CallManagerHomePage extends StatefulWidget {
   const CallManagerHomePage({super.key});
@@ -12,12 +13,15 @@ class CallManagerHomePage extends StatefulWidget {
 }
 
 class _CallManagerHomePageState extends State<CallManagerHomePage> {
-  late final Uuid uuid;
   @override
   void initState() {
     CallNotificationHandler.initializeCallKitListener(context);
-    uuid = Uuid();
-    CallNotificationHandler.showCallkitIncoming(uuid.v4());
+    Workmanager().registerPeriodicTask(
+      "registerIncomingCall",
+      WorkMangerConstant.registerIncomingCall,
+      initialDelay: const Duration(seconds: 10),
+      frequency: Duration(minutes: 15),
+    );
     super.initState();
   }
 
