@@ -1,9 +1,25 @@
 import 'package:call_manager/module/call_manager/widget/audio_call_widget.dart';
 import 'package:call_manager/module/data/contact_model.dart';
+import 'package:call_manager/module/utils/call_mangaer.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
-class CallManagerHomePage extends StatelessWidget {
+class CallManagerHomePage extends StatefulWidget {
   const CallManagerHomePage({super.key});
+
+  @override
+  State<CallManagerHomePage> createState() => _CallManagerHomePageState();
+}
+
+class _CallManagerHomePageState extends State<CallManagerHomePage> {
+  late final Uuid uuid;
+  @override
+  void initState() {
+    CallNotificationHandler.initializeCallKitListener(context);
+    uuid = Uuid();
+    CallNotificationHandler.showCallkitIncoming(uuid.v4());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
