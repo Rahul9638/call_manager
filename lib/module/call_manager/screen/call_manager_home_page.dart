@@ -47,14 +47,31 @@ class CallManagerHomePage extends StatelessWidget {
                           return SizedBox(
                             height: MediaQuery.of(context).size.height,
                             width: MediaQuery.of(context).size.width,
-                            child: AudioCallWidget(
+                            child: CallManagerWidget(
+                              isVideoCall: false,
                               contactModel: model()[index],
                             ),
                           );
                         },
                       );
                     },
-                    onVideoCall: () {},
+                    onVideoCall: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        enableDrag: false,
+                        builder: (context) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            child: CallManagerWidget(
+                              isVideoCall: true,
+                              contactModel: model()[index],
+                            ),
+                          );
+                        },
+                      );
+                    },
                   );
                 },
                 separatorBuilder: (context, index) {
